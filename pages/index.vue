@@ -1,34 +1,37 @@
 <template>
   <div class="container">
     <div>
-      <Logo />
-      <h1 class="title">nuxt-todos</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+      <Task v-bind="task1" />
+      <Task v-bind="task2" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import Task from '@/components/Task.vue'
 import Vue from 'vue'
 
-export default Vue.extend({})
+export default Vue.extend({
+  components: { Task },
+  data() {
+    return {
+      task1: {
+        id: 1,
+        name: 'Task1',
+        done: true,
+        notes:
+          'BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA',
+      },
+      task2: {
+        id: 2,
+        name: 'Task2',
+        done: false,
+        notes:
+          'NAN NAN NAN NAN NAN NAN NAN NAN NAN NAN NAN NAN NAN NAN NAN NAN',
+      },
+    }
+  },
+})
 </script>
 
 <style>
