@@ -1,11 +1,21 @@
 <template>
   <div class="task">
     <label :class="{ checked: isDone }" :for="id">
-      <input v-model="isDone" type="checkbox" @change="updateDb($event)" />
+      <input
+        :id="id"
+        v-model="isDone"
+        type="checkbox"
+        @change="updateDb($event)"
+      />
       {{ name }}
     </label>
     <div class="notes">
-      <textarea :value="notes" />
+      <textarea
+        v-model="taskNotes"
+        rows="4"
+        cols="80"
+        @keypress="listenToKeyPress($event)"
+      />
     </div>
   </div>
 </template>
@@ -32,14 +42,20 @@ export default Vue.extend({
       type: Boolean,
     },
   },
-  data({ done }) {
+  data({ done, notes }) {
     return {
+      taskNotes: notes,
       isDone: done,
     }
   },
   methods: {
+    listenToKeyPress($event) {
+      if ($event.charCode === 13) {
+        this.updateDb()
+      }
+    },
     updateDb() {
-      console.log({ isDone: this.isDone })
+      console.log({ isDone: this.isDone, notes: this.taskNotes })
       return 0
     },
   },
@@ -49,5 +65,10 @@ export default Vue.extend({
 <style scoped>
 label.checked {
   text-decoration: line-through;
+}
+.notes {
+  border-color: black;
+  border-width: 1px;
+  border-radius: 10px;
 }
 </style>
