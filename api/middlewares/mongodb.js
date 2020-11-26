@@ -12,30 +12,40 @@ export const mongodbClient = () => {
     useUnifiedTopology: true,
   })
 
-  const getTasks = async () => {
-    const collection = await getCollection('tasks')
-
-    const tasks = await collection.find({}).toArray()
-
-    closeClient()
-
-    return tasks
+  const getPendingTasks = (conn) => async () => {
+    const collection = await getCollection(conn)('tasks')
+    return collection.find({ done: false }).toArray()
   }
 
-  const getCollection = async (collectionName) => {
-    const conn = await getConnection()
+  const getCompletedTasks = (conn) => async () => {
+    const collection = await getCollection(conn)('tasks')
+    return collection.find({ done: true }).toArray()
+  }
+
+  const updateTask = (conn) => async (task) => {
+    const collection = await getCollection(conn)('tasks')
+    return collection.save({
+      _id: task.id,
+      notes: task.notes,
+      done: task.done,
+      name: task.name,
+    })
+  }
+
+  const useMongo = (fn) => async (p) => {
+    const conn = await client.connect()
+    const resp = await fn(conn)(p)
+    client.close()
+    return resp
+  }
+
+  const getCollection = (conn) => (collectionName) => {
     return conn.db(dbName).collection(collectionName)
   }
 
-  const getConnection = async () => {
-    return await client.connect()
-  }
-
-  const closeClient = () => {
-    client.close()
-  }
-
   return {
-    getTasks,
+    getPendingTasks: useMongo(getPendingTasks),
+    getCompletedTasks: useMongo(getCompletedTasks),
+    updateTask: useMongo(updateTask),
   }
 }

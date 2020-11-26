@@ -16,6 +16,11 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
+  publicRuntimeConfig: {
+    baseUrl:
+      process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '',
+  },
+
   serverMiddleware: [{ path: '/api', handler: '~/api/index.js' }],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

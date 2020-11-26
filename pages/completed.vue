@@ -11,7 +11,7 @@ import Vue from 'vue'
 export default Vue.extend({
   components: { Task },
   async asyncData({ $config: { baseUrl } }) {
-    const tasks = await fetch(`${baseUrl}/api/tasks/pending`).then((res) =>
+    const tasks = await fetch(`${baseUrl}/api/tasks/completed`).then((res) =>
       res.json()
     )
     return { tasks }

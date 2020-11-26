@@ -22,6 +22,7 @@
 
 <script>
 import Vue from 'vue'
+import axios from 'axios'
 
 export default Vue.extend({
   name: 'Task',
@@ -35,7 +36,7 @@ export default Vue.extend({
       required: true,
     },
     id: {
-      type: Number,
+      type: String,
       required: true,
     },
     done: {
@@ -55,8 +56,12 @@ export default Vue.extend({
       }
     },
     updateDb() {
-      console.log({ isDone: this.isDone, notes: this.taskNotes })
-      return 0
+      axios.put(`/api/task/${this.id}`, {
+        id: this.id,
+        done: this.isDone,
+        notes: this.taskNotes,
+        name: this.name,
+      })
     },
   },
 })
