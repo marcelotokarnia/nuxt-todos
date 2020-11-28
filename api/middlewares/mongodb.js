@@ -1,4 +1,5 @@
 const { MongoClient } = require('mongodb')
+const { v4: uuidv4 } = require('uuid')
 
 export const mongodbClient = () => {
   const dbName = process.env.DB_NAME
@@ -32,6 +33,19 @@ export const mongodbClient = () => {
     })
   }
 
+  const createNewTask = (conn) => async (task) => {
+    if (task.often === 'NOW') {
+      const collection = await getCollection(conn)('tasks')
+      return collection.save({
+        _id: uuidv4(),
+        notes: '',
+        done: false,
+        name: task.name,
+        createdAt: new Date().getTime(),
+      })
+    }
+  }
+
   const useMongo = (fn) => async (p) => {
     const conn = await client.connect()
     const resp = await fn(conn)(p)
@@ -47,5 +61,6 @@ export const mongodbClient = () => {
     getPendingTasks: useMongo(getPendingTasks),
     getCompletedTasks: useMongo(getCompletedTasks),
     updateTask: useMongo(updateTask),
+    createNewTask: useMongo(createNewTask),
   }
 }

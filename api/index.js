@@ -16,5 +16,9 @@ app.put('/task/:id', async (req, res) => {
   const task = req.body
   res.json(await mongodbClient().updateTask(task))
 })
+app.post('/task', async (req, res) => {
+  const task = req.body
+  res.json(await mongodbClient().createNewTask(task))
+})
 
 module.exports = app
