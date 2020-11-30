@@ -18,7 +18,11 @@ app.put('/task/:id', async (req, res) => {
 })
 app.post('/task', async (req, res) => {
   const task = req.body
-  res.json(await mongodbClient().createNewTask(task))
+  if (task.often === 'NOW') {
+    res.json(await mongodbClient().createNewTask(task))
+  } else if (['DAILY', 'WEEKLY', 'MONTHLY'].includes(task.often)) {
+    res.json(await mongodbClient().scheduleNewCron(task))
+  }
 })
 
 module.exports = app

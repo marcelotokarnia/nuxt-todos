@@ -34,16 +34,23 @@ export const mongodbClient = () => {
   }
 
   const createNewTask = (conn) => async (task) => {
-    if (task.often === 'NOW') {
-      const collection = await getCollection(conn)('tasks')
-      return collection.save({
-        _id: uuidv4(),
-        notes: '',
-        done: false,
-        name: task.name,
-        createdAt: new Date().getTime(),
-      })
-    }
+    const collection = await getCollection(conn)('tasks')
+    return collection.save({
+      _id: uuidv4(),
+      notes: '',
+      done: false,
+      name: task.name,
+      createdAt: new Date().getTime(),
+    })
+  }
+
+  const scheduleNewCron = (conn) => async (cron) => {
+    const collection = await getCollection(conn)('schedulers')
+    return collection.save({
+      _id: uuidv4(),
+      name: cron.name,
+      often: cron.often,
+    })
   }
 
   const useMongo = (fn) => async (p) => {
@@ -62,5 +69,6 @@ export const mongodbClient = () => {
     getCompletedTasks: useMongo(getCompletedTasks),
     updateTask: useMongo(updateTask),
     createNewTask: useMongo(createNewTask),
+    scheduleNewCron: useMongo(scheduleNewCron),
   }
 }

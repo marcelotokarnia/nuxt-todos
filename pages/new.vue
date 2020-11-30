@@ -5,6 +5,7 @@
       <option value="" disabled selected>How often</option>
 
       <option value="NOW">Now</option>
+      <option value="DAILY">Daily</option>
       <option value="WEEKLY">Weekly</option>
       <option value="MONTHLY">Monthly</option>
     </select>
