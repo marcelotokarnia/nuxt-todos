@@ -1,0 +1,13 @@
+name: daily-generate-tasks
+on:
+  schedule:
+    - cron: '0 1 * * *'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call our API route
+        run: |
+          curl --request POST \
+          --url 'https://todos.tokks.tech/api/generate' \
+          --header 'Authorization: Basic ${{ secrets.YOUR_API_KEY }}'
