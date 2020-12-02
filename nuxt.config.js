@@ -18,7 +18,9 @@ export default {
 
   publicRuntimeConfig: {
     baseUrl:
-      process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '',
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:3000'
+        : 'https://todos.tokks.tech',
   },
 
   serverMiddleware: [{ path: '/api', handler: '~/api/index.js' }],
@@ -36,6 +38,8 @@ export default {
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
   ],
+
+  target: 'server',
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
