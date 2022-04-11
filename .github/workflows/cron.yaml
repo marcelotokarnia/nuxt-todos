@@ -9,5 +9,5 @@ jobs:
       - name: Call our API route
         run: |
           curl --request POST \
-          --url 'https://todos.tokks.tech/api/generate' \
+          --url 'https://todos.tokarnia.tech/api/generate' \
           --header 'Authorization: Basic ${{ secrets.YOUR_API_KEY }}'

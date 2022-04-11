@@ -20,7 +20,7 @@ export default {
     baseUrl:
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:3000'
-        : 'https://todos.tokks.tech',
+        : 'https://todos.tokarnia.tech',
   },
 
   serverMiddleware: [{ path: '/api', handler: '~/api/index.js' }],
